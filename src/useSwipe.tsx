@@ -14,7 +14,7 @@ interface Slide {
 
 export const useSwipe = (
     onSwipe: (x: number, y: number) => void,
-    onSwipeEnd: (x: number, y: number, quickSlide: boolean) => void,
+    onSwipeEnd: (x: number, y: number, quickSwipe: boolean) => void,
     stopPropagation: boolean = true,
     quickSwipeDuration: number = 300,
     quickSwipeDistance: number = 50,
