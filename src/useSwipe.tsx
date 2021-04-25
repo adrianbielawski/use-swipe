@@ -104,7 +104,7 @@ export const useSwipe = (
                 element.removeEventListener('touchend', handleTouchEnd)
             }
         }
-    }, [element, onSwipe, onSwipeEnd, quickSwipeDuration, quickSwipeDistance])
+    }, [element, onSwipe, onSwipeEnd, stopPropagation, quickSwipeDuration, quickSwipeDistance])
 
     return elementRef
 }
