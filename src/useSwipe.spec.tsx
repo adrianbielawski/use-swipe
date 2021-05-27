@@ -7,6 +7,7 @@ describe('useSwipe', () => {
     let element: HTMLElement;
     let onSwipe: () => void;
     let onSwipeEnd: () => void;
+    let onSwipeStart: () => void;
 
     beforeEach(() => {
         element = document.createElement('div')
@@ -70,6 +71,35 @@ describe('useSwipe', () => {
         expect(mockRemoveEventListener).toHaveBeenNthCalledWith(3, 'touchend', expect.anything())
     })
 
+    it('calls onSwipeStart when user starts swipe on an element and onSwipeStart is defined', () => {
+        onSwipeStart = jest.fn()
+        const { result } = renderHook(() => useSwipe(onSwipe, onSwipeEnd, onSwipeStart))
+        // result.current is the element setting function
+        act(() => result.current(element))
+
+        fireEvent.touchStart(element, { touches: [{ clientX: 150, clientY: 150 }] })
+
+        expect(onSwipeStart).toHaveBeenCalledTimes(1)
+        expect(onSwipeStart).toHaveBeenCalledWith(150, 150)
+        expect(onSwipe).not.toHaveBeenCalled()
+        expect(onSwipeEnd).not.toHaveBeenCalled()
+
+    })
+
+    it('does not call onSwipeStart when user starts swipe on an element and onSwipeStart is not defined', () => {
+        onSwipeStart = jest.fn()
+        const { result } = renderHook(() => useSwipe(onSwipe, onSwipeEnd))
+        // result.current is the element setting function
+        act(() => result.current(element))
+
+        fireEvent.touchStart(element, { touches: [{ clientX: 150, clientY: 150 }] })
+
+        expect(onSwipeStart).not.toHaveBeenCalled()
+        expect(onSwipe).not.toHaveBeenCalled()
+        expect(onSwipeEnd).not.toHaveBeenCalled()
+
+    })
+
     it('calls onSwipe and onSwipeEnd when user swipes on an element', () => {
         const { result } = renderHook(() => useSwipe(onSwipe, onSwipeEnd))
         // result.current is the element setting function
@@ -91,7 +121,7 @@ describe('useSwipe', () => {
         ['stops propagation', true],
         ['does not stop propagation', false],
     ])('%s when stopPropagation is %s', (_, stopPropagation) => {
-        const { result } = renderHook(() => useSwipe(onSwipe, onSwipeEnd, stopPropagation))
+        const { result } = renderHook(() => useSwipe(onSwipe, onSwipeEnd, undefined, stopPropagation))
         // result.current is the element setting function
         act(() => result.current(element))
 
@@ -117,7 +147,7 @@ describe('useSwipe', () => {
         ['too short', 99, 100, false],
         ['too slow and too short', 100, 100, false],
     ])('handles quick swipes correctly (%s)', (_, duration, distance, isQuick) => {
-        const { result } = renderHook(() => useSwipe(onSwipe, onSwipeEnd, true, 100, 100))
+        const { result } = renderHook(() => useSwipe(onSwipe, onSwipeEnd, undefined, true, 100, 100))
         // result.current is the element setting function
         act(() => result.current(element))
 
