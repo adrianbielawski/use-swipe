@@ -12,7 +12,7 @@ interface Slide {
     length: Coords | null,
 }
 
-export const useSwipe = (
+const useSwipe = (
     onSwipe: (x: number, y: number) => void,
     onSwipeEnd: (x: number, y: number, quickSwipe: boolean) => void,
     onSwipeStart?: (x: number, y: number) => void,
@@ -114,3 +114,5 @@ export const useSwipe = (
 
     return elementRef
 }
+
+export default useSwipe

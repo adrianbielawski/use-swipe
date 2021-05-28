@@ -1,7 +1,7 @@
 import { act, renderHook } from '@testing-library/react-hooks'
 import { createEvent, fireEvent } from '@testing-library/react'
 import { advanceTo, advanceBy, clear } from 'jest-date-mock'
-import { useSwipe } from './useSwipe'
+import useSwipe from './useSwipe'
 
 describe('useSwipe', () => {
     let element: HTMLElement;
