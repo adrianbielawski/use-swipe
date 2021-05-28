@@ -13,7 +13,7 @@ Created with TypeScript and React. Tested with Jest and React-testing-library.
 `$ npm i @adrianbielawski/use-swipe`
 
 ```tsx
-import { useSwipe } from '@adrianbielawski/use-swipe'
+import useSwipe from '@adrianbielawski/use-swipe'
 
 const YourComponent = () => {
     const swipeRef = useSwipe(handleSwipe, handleSwipeEnd)
